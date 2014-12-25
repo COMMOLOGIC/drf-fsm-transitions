@@ -11,8 +11,10 @@ def get_transition_viewset_method(transition_name):
         object = self.get_object()
         transition_method = getattr(object, transition_name)
 
-        transition_method(by=self.request.user)
-        object.save()
+        do_save = transition_method(by=self.request.user)
+
+        if do_save is not False:
+            object.save()
 
         serializer = self.get_serializer(object)
         return Response(serializer.data)
