@@ -7,11 +7,11 @@ def get_transition_viewset_method(transition_name):
     Create a viewset method for the provided `transition_name`
     '''
     @detail_route(methods=['post'])
-    def inner_func(self, request, pk=None):
+    def inner_func(self, request, pk=None, **kwargs):
         object = self.get_object()
         transition_method = getattr(object, transition_name)
 
-        transition_method(by=self.request.user)
+        transition_method(by=self.request.user, **kwargs)
 
         if self.save_after_transition:
             object.save()
