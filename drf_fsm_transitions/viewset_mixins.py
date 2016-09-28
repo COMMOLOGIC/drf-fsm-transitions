@@ -11,7 +11,7 @@ def get_transition_viewset_method(transition_name, **kwargs):
         object = self.get_object()
         transition_method = getattr(object, transition_name)
 
-        transition_method(by=self.request.user, **kwargs)
+        transition_method(by=self.request.user, request=request, **kwargs)
 
         if self.save_after_transition:
             object.save()
